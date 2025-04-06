@@ -9,6 +9,8 @@ const emojies = ref([...data.slice(0, 10), ...data.slice(0, 10)])
 const openedCards = ref(new Set<number>([]))
 const matchedCards = ref(new Set<number>())
 
+const moves = ref(0)
+
 const areTwoCardsOpen = computed(() => {
   return openedCards.value.size === 2
 })
@@ -17,6 +19,8 @@ watch(areTwoCardsOpen, (flag) => {
   if (!flag) return
 
   const [firstIndex, secondIndex] = openedCards.value
+
+  moves.value += 1
 
   const id = setTimeout(() => {
     openedCards.value.clear()
@@ -63,6 +67,18 @@ function getStatus(index: number): Status {
         @click="openCard(index)"
       />
     </div>
+
+    <section class="game-stats">
+      <dl>
+        <dt>Moves</dt>
+        <dd>{{ moves }}</dd>
+      </dl>
+
+      <dl>
+        <dt>Matches</dt>
+        <dd>{{ matchedCards.size / 2 }} / {{ emojies.length }}</dd>
+      </dl>
+    </section>
   </main>
 </template>
 
@@ -89,5 +105,12 @@ function getStatus(index: number): Status {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.game-stats {
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 4rem;
 }
 </style>
