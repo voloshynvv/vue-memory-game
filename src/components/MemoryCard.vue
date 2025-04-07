@@ -8,7 +8,7 @@
     :disabled
   >
     <div class="front">
-      <span>{{ label }}</span>
+      <span v-if="label">{{ label }}</span>
     </div>
 
     <div class="back">
@@ -24,7 +24,7 @@ defineProps<{
   emoji: string
   status: Status
   name: string
-  label: number
+  label?: string
   disabled?: boolean
 }>()
 </script>
