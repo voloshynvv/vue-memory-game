@@ -8,23 +8,24 @@
     :disabled
   >
     <div class="front">
-      <span v-if="label">{{ label }}</span>
+      <span></span>
     </div>
 
     <div class="back">
-      <span role="img" v-html="emoji" :aria-label="name"></span>
+      <div role="img" :aria-label="emoji.name">
+        <span v-for="code in emoji.htmlCode" :key="code" v-html="code"></span>
+      </div>
     </div>
   </button>
 </template>
 
 <script setup lang="ts">
-import type { Status } from '@/types'
+import type { Emoji } from '@/types/api'
+import type { MemoryCardStatus } from '@/types/common'
 
 defineProps<{
-  emoji: string
-  status: Status
-  name: string
-  label?: string
+  status: MemoryCardStatus
+  emoji: Emoji
   disabled?: boolean
 }>()
 </script>

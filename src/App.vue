@@ -1,109 +1,52 @@
 <script setup lang="ts">
-import { computed, onWatcherCleanup, ref, watch } from 'vue'
+import { ref } from 'vue'
 
-import MemoryCard from './components/MemoryCard.vue'
-import GameStats from './components/GameStats.vue'
-import data from './data.json'
-import type { Status } from './types'
-import { shuffle } from './utils'
+import GameSettings from '@/components/GameSettings.vue'
+import GameBoard from '@/components/GameBoard.vue'
 
-const emojies = ref([...shuffle(data.slice(0, 10)), ...shuffle(data.slice(0, 10))])
-const openedCards = ref(new Set<number>([]))
-const matchedCards = ref(new Set<number>())
-const moves = ref(0)
-const isLabelVisible = ref(false)
+import { shuffle } from '@/utils/shuffle'
+import { getEmojis } from '@/api/game'
+import type { GameStatus } from '@/types/common'
+import type { Emoji } from './types/api'
 
-const areTwoCardsOpen = computed(() => {
-  return openedCards.value.size === 2
-})
-
-const CLOSE_TIMEOUT = 1000
-watch(areTwoCardsOpen, (opened) => {
-  if (!opened) return
-
-  const id = setTimeout(() => {
-    openedCards.value.clear()
-    moves.value += 1
-  }, CLOSE_TIMEOUT)
-
-  const [firstIndex, secondIndex] = openedCards.value
-
-  if (emojies.value[firstIndex].name === emojies.value[secondIndex].name) {
-    matchedCards.value.add(firstIndex)
-    matchedCards.value.add(secondIndex)
-    moves.value += 1
-
-    clearTimeout(id)
-    openedCards.value.clear()
-  }
-
-  onWatcherCleanup(() => {
-    clearTimeout(id)
-  })
-})
-
-function openCard(index: number) {
-  if (openedCards.value.size === 2) {
-    openedCards.value.clear()
-    moves.value += 1
-  }
-
-  openedCards.value.add(index)
-}
-
-function getStatus(index: number): Status {
-  if (openedCards.value.has(index)) {
-    return 'opened'
-  }
-
-  if (matchedCards.value.has(index)) {
-    return 'matched'
-  }
-
-  return 'closed'
-}
+const emojis = ref<Emoji[]>([])
+const gameStatus = ref<GameStatus>('idle')
 
 function resetGame() {
-  const items = data.slice(0, 10)
-  emojies.value = []
-  emojies.value = [...shuffle(items), ...shuffle(items)]
-  moves.value = 0
-  isLabelVisible.value = false
-  openedCards.value = new Set()
-  matchedCards.value = new Set()
+  gameStatus.value = 'idle'
+  emojis.value = []
+}
+
+async function startGame(category: string, boardSize = 12) {
+  try {
+    gameStatus.value = 'initializing'
+
+    const data = await getEmojis(category)
+
+    const boardEmojis = data.slice(0, boardSize)
+
+    emojis.value = [...shuffle(boardEmojis), ...shuffle(boardEmojis)]
+    gameStatus.value = 'ready'
+  } catch {
+    gameStatus.value = 'error'
+  }
 }
 </script>
 
 <template>
-  <main class="game">
+  <main class="container">
     <h1 class="title">Memory game</h1>
 
-    <div class="game-board">
-      <MemoryCard
-        v-for="(emoji, index) in emojies"
-        :key="emoji.name"
-        :emoji="emoji.htmlCode[0]"
-        :name="emoji.name"
-        :label="isLabelVisible ? `${index + 1}` : ''"
-        :disabled="matchedCards.has(index)"
-        :status="getStatus(index)"
-        @click="openCard(index)"
-      />
-    </div>
+    <GameSettings v-if="gameStatus === 'idle'" @start="startGame" />
 
-    <GameStats
-      :matched="matchedCards.size / 2"
-      :moves
-      :total="emojies.length / 2"
-      v-model="isLabelVisible"
-    />
+    <GameBoard v-else-if="gameStatus === 'ready'" :emojis @reset="resetGame" />
 
-    <button @click="resetGame">Reset game</button>
+    <div v-else-if="gameStatus === 'error'">Errorasd</div>
   </main>
 </template>
 
 <style scoped>
-.game {
+.container {
   max-width: 60rem;
   padding: 1rem;
   margin: 0 auto;
@@ -128,9 +71,6 @@ function resetGame() {
 }
 
 .game-stats {
-  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-  border-radius: 1rem;
-  padding: 2rem;
   margin-top: 4rem;
 }
 

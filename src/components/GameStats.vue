@@ -1,12 +1,11 @@
 <script setup lang="ts">
-defineProps<{ moves: number; matched: number; total: number }>()
-const model = defineModel()
+import BaseCard from './common/BaseCard.vue'
 
-console.log(model)
+defineProps<{ moves: number; matched: number; total: number }>()
 </script>
 
 <template>
-  <section class="game-stats">
+  <BaseCard class="game-stats">
     <div class="row">
       <dl>
         <dt>Moves</dt>
@@ -20,16 +19,17 @@ console.log(model)
     </div>
 
     <label class="label">
-      <input v-model="model" type="checkbox" />
+      <input type="checkbox" />
       show number
     </label>
-  </section>
+  </BaseCard>
 </template>
 
 <style scoped>
 .game-stats {
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
 }
 
 .row {
