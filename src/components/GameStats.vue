@@ -30,6 +30,11 @@ defineProps<{ moves: number; matched: number; total: number }>()
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 4rem;
 }
 
 .row {

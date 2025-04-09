@@ -73,26 +73,34 @@ function openCard(index: number) {
 </script>
 
 <template>
-  <div class="game-board">
-    <MemoryCard
-      v-for="(emoji, index) in emojis"
-      :key="emoji.name"
-      :emoji
-      :disabled="matchedCards.has(index)"
-      :status="getStatus(index)"
-      @click="openCard(index)"
-    />
+  <div class="game-wrapper">
+    <div class="game-board">
+      <MemoryCard
+        v-for="(emoji, index) in emojis"
+        :key="emoji.name"
+        :emoji
+        :disabled="matchedCards.has(index)"
+        :status="getStatus(index)"
+        @click="openCard(index)"
+      />
+    </div>
+
+    <BaseButton full-width @click="emit('reset')">Reset Game</BaseButton>
+
+    <GameStats :matched="matchedCards.size / 2" :moves :total="emojis.length / 2" />
   </div>
-
-  <GameStats :matched="matchedCards.size / 2" :moves :total="emojis.length / 2" />
-
-  <BaseButton full-width @click="emit('reset')">Reset Game</BaseButton>
 </template>
 
 <style scoped>
+.game-wrapper {
+  padding-bottom: 10rem;
+}
+
 .game-board {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 </style>

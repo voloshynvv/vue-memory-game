@@ -33,7 +33,6 @@ defineProps<{
 <style scoped>
 .card {
   --radius: 0.75rem;
-
   cursor: pointer;
   position: relative;
   background-color: transparent;
@@ -52,7 +51,6 @@ defineProps<{
   justify-content: center;
   align-items: center;
   height: 100px;
-  width: 100px;
   transition: transform 500ms;
   backface-visibility: hidden;
   border-radius: var(--radius);

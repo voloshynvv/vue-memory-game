@@ -3,32 +3,108 @@ import { ref } from 'vue'
 import { categories } from '@/constants/game'
 import BaseButton from './common/BaseButton.vue'
 import BaseCard from './common/BaseCard.vue'
-
-const selectedCategory = ref('')
+import { toKebabCase } from '@/utils/format'
+import BaseRadioCard from './common/BaseRadioCard.vue'
 
 const emit = defineEmits<{
-  start: [category: string]
+  start: [category: string, boardSize: number]
 }>()
+
+const selectedCategory = ref('')
+const selectedPairs = ref(8)
+const hasValidationError = ref(false)
 
 function submit() {
   if (selectedCategory.value) {
-    emit('start', selectedCategory.value)
+    emit('start', selectedCategory.value, selectedPairs.value)
+  } else {
+    hasValidationError.value = true
   }
 }
 </script>
 
 <template>
   <BaseCard>
-    <h2>Game Settings</h2>
+    <h2 style="margin-bottom: 4px">Game Settings</h2>
+    <p>Sharpen your mind and let's play! Just a few quick settings before you dive in.</p>
 
-    <form @submit.prevent="submit">
-      <select v-model="selectedCategory">
-        <option v-for="category in categories" :key="category" :value="category">
-          {{ category }}
-        </option>
-      </select>
+    <form class="form" @submit.prevent="submit">
+      <div class="form-group">
+        <label class="label" for="categories">Choose a category</label>
+
+        <select
+          id="categories"
+          class="select"
+          v-model="selectedCategory"
+          @change="hasValidationError = false"
+        >
+          <option value="">Please choose an option</option>
+
+          <option v-for="category in categories" :key="category" :value="toKebabCase(category)">
+            {{ category }}
+          </option>
+        </select>
+
+        <span class="error-message" v-if="hasValidationError">Field is required</span>
+      </div>
+
+      <fieldset class="fieldset">
+        <legend class="label">Pairs</legend>
+
+        <BaseRadioCard :value="12" v-model="selectedPairs"> 12 </BaseRadioCard>
+        <BaseRadioCard :value="24" v-model="selectedPairs"> 12 </BaseRadioCard>
+        <BaseRadioCard :value="36" v-model="selectedPairs"> 16 </BaseRadioCard>
+      </fieldset>
 
       <BaseButton type="submit"> Start </BaseButton>
     </form>
   </BaseCard>
 </template>
+
+<style scoped>
+.flex {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.select {
+  appearance: none;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  max-width: 20rem;
+  width: 100%;
+  display: block;
+}
+
+.label {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  display: block;
+}
+
+.form-group {
+  position: relative;
+}
+
+.error-message {
+  color: var(--color-text-danger);
+  font-size: 0.875rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.fieldset {
+  display: flex;
+  border: 0;
+  gap: 0.5rem;
+}
+</style>

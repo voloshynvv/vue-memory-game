@@ -1,10 +1,10 @@
 export const categories = [
-  'smileys-and-people',
-  'animals-and-nature',
-  'food-and-drink',
-  'travel-and-places',
-  'activities',
-  'objects',
-  'symbols',
-  'flags',
+  'Smileys and People',
+  'Animals and Nature',
+  'Food and Drink',
+  'Travel and Places',
+  'Activities',
+  'Objects',
+  'Symbols',
+  'Flags',
 ]
