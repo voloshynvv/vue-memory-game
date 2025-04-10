@@ -1,24 +1,77 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const {
+  variant = 'primary',
+  size = 'md',
+  fullWidth,
+} = defineProps<{
   fullWidth?: boolean
+  size?: 'sm' | 'md' | 'icon'
+  variant?: 'primary' | 'outline' | 'danger'
 }>()
+
+const classes = computed(() => {
+  return [`button-${size}`, `button-${variant}`, fullWidth && 'button-full']
+})
 </script>
 
 <template>
-  <button class="button" :class="{ fullWidth }">
-    <slot></slot>
-  </button>
+  <div style="display: flex; flex-direction: column; gap: 20px">
+    <button class="button" :class="classes">
+      <slot></slot>
+    </button>
+  </div>
 </template>
 
 <style scoped>
 .button {
-  border: 0;
+  font: inherit;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid;
   border-radius: 0.25rem;
-  padding: 0.5rem 1rem;
   cursor: pointer;
+
+  border-color: var(--border);
+  height: var(--height);
+  width: var(--width);
+  color: var(--color);
+  padding-inline: var(--padding-x);
+  background-color: var(--bg);
 }
 
-.fullWidth {
-  width: 100%;
+/* Variants */
+.button-primary {
+  --border: transparent;
+  --bg: #3730a3;
+  --color: white;
+}
+
+.button-outline {
+  --border: var(--color-border);
+}
+
+.button-danger {
+  --bg: red;
+  --color: white;
+}
+
+/* Sizes */
+.button-sm {
+  --height: 36px;
+  --padding-x: 6px;
+}
+
+.button-md {
+  --height: 40px;
+  --padding-x: 12px;
+}
+
+.button-icon {
+  --height: 36px;
+  --width: 36px;
 }
 </style>

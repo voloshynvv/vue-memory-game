@@ -74,7 +74,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-button,
 select {
   font: inherit;
 }

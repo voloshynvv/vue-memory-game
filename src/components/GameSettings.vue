@@ -25,7 +25,7 @@ function submit() {
 
 <template>
   <BaseCard>
-    <h2 style="margin-bottom: 4px">Game Settings</h2>
+    <h2 style="margin-bottom: 4px">New Game Settings</h2>
     <p>Sharpen your mind and let's play! Just a few quick settings before you dive in.</p>
 
     <form class="form" @submit.prevent="submit">
@@ -52,8 +52,8 @@ function submit() {
         <legend class="label">Pairs</legend>
 
         <BaseRadioCard :value="12" v-model="selectedPairs"> 12 </BaseRadioCard>
-        <BaseRadioCard :value="24" v-model="selectedPairs"> 12 </BaseRadioCard>
-        <BaseRadioCard :value="36" v-model="selectedPairs"> 16 </BaseRadioCard>
+        <BaseRadioCard :value="24" v-model="selectedPairs"> 24 </BaseRadioCard>
+        <BaseRadioCard :value="36" v-model="selectedPairs"> 36 </BaseRadioCard>
       </fieldset>
 
       <BaseButton type="submit"> Start </BaseButton>
