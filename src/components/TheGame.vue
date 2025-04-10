@@ -9,11 +9,11 @@ import gameSound from '@/assets/audio/game.mp3'
 import MemoryCard from '@/components/MemoryCard.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
 import GameTime from '@/components/GameTime.vue'
-import GameLeaveButton from '@/components/GameLeaveButton.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import IconVolumeOn from '@/components/icons/IconVolumeOn.vue'
 import IconVolumeOff from '@/components/icons/IconVolumeOff.vue'
 import GameOverBanner from './GameOverBanner.vue'
+import IconLogout from './icons/IconLogout.vue'
 
 const props = defineProps<{
   emojis: Emoji[]
@@ -104,6 +104,10 @@ function toggleSound() {
   play({ id: 'sound' })
   soundEnabled.value = !soundEnabled.value
 }
+
+function finishGame() {
+  emit('reset')
+}
 </script>
 
 <template>
@@ -116,7 +120,7 @@ function toggleSound() {
     <GameTime :is-game-over="isGameOver" />
 
     <div class="mb">
-      <GameOverBanner v-if="isGameOver" @reset="emit('reset')" />
+      <GameOverBanner v-if="isGameOver" @reset="finishGame" />
     </div>
 
     <div class="board">
@@ -131,12 +135,14 @@ function toggleSound() {
     </div>
 
     <div class="controls fixed">
-      <BaseButton @click="toggleSound" size="icon" variant="outline">
+      <BaseButton @click="toggleSound" size="icon" variant="outline" :aria-label="''">
         <IconVolumeOn v-if="soundEnabled" />
         <IconVolumeOff v-else />
       </BaseButton>
 
-      <GameLeaveButton />
+      <BaseButton @click="finishGame" size="icon" variant="outline">
+        <IconLogout />
+      </BaseButton>
     </div>
 
     <BaseCard class="stats fixed">

@@ -33,12 +33,18 @@ const classes = computed(() => {
   border-radius: 0.25rem;
   cursor: pointer;
 
+  transition: border-color 250ms;
+
   border-color: var(--border);
   height: var(--height);
   width: var(--width);
   color: var(--color);
   padding-inline: var(--padding-x);
   background-color: var(--bg);
+
+  &:hover {
+    border-color: var(--border-hover, transparent);
+  }
 }
 
 /* Variants */
@@ -50,6 +56,7 @@ const classes = computed(() => {
 
 .button-outline {
   --border: var(--color-border);
+  --border-hover: var(--color-border-hover);
   --bg: #ffffff;
 }
 
