@@ -60,18 +60,18 @@ const classes = computed(() => {
 
 /* Sizes */
 .button-sm {
-  --height: 36px;
-  --padding-x: 6px;
+  --height: 2.25rem;
+  --padding-x: 0.375rem;
 }
 
 .button-md {
-  --height: 40px;
-  --padding-x: 12px;
+  --height: 2.5rem;
+  --padding-x: 0.75rem;
 }
 
 .button-icon {
-  --height: 36px;
-  --width: 36px;
+  --height: 3.125rem;
+  --width: 3.125rem;
 }
 
 .button-full {

@@ -113,9 +113,11 @@ function toggleSound() {
       <span>Cards</span>
     </h1>
 
-    <GameTime />
+    <GameTime :is-game-over="isGameOver" />
 
-    <GameOverBanner class="mb" v-if="isGameOver" @reset="emit('reset')" />
+    <div class="mb">
+      <GameOverBanner v-if="isGameOver" @reset="emit('reset')" />
+    </div>
 
     <div class="board">
       <MemoryCard
@@ -148,17 +150,22 @@ function toggleSound() {
 .game {
   min-height: 100svh;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  padding: 6.25rem 2rem;
+  padding: 4.5rem 3rem 8rem;
+
+  @media (min-width: 768px) {
+    padding-block: 4rem;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .board {
   max-width: 45rem;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  /* grid-template-columns: repeat(6, 1fr); */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 0.5rem;
 }
 
