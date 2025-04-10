@@ -13,6 +13,7 @@ import GameLeaveButton from '@/components/GameLeaveButton.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import IconVolumeOn from '@/components/icons/IconVolumeOn.vue'
 import IconVolumeOff from '@/components/icons/IconVolumeOff.vue'
+import GameOverBanner from './GameOverBanner.vue'
 
 const props = defineProps<{
   emojis: Emoji[]
@@ -41,13 +42,17 @@ const { play } = useSound(gameSound, {
   volume,
 })
 
-const areTwoCardsOpen = computed(() => {
+const areTwoCardsOpened = computed(() => {
   return openedCards.value.size === 2
+})
+
+const isGameOver = computed(() => {
+  return matchedCards.value.size === props.emojis.length
 })
 
 const CLOSE_TIMEOUT = 1000
 
-watch(areTwoCardsOpen, (opened) => {
+watch(areTwoCardsOpened, (opened) => {
   if (!opened) return
 
   moves.value += 1
@@ -110,6 +115,8 @@ function toggleSound() {
 
     <GameTime />
 
+    <GameOverBanner class="mb" v-if="isGameOver" @reset="emit('reset')" />
+
     <div class="board">
       <MemoryCard
         v-for="(emoji, index) in emojis"
@@ -143,7 +150,8 @@ function toggleSound() {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  flex-direction: column;
+  padding: 120px 2rem;
 }
 
 .board {
@@ -183,5 +191,9 @@ function toggleSound() {
   right: 1.5rem;
   padding: 1rem;
   z-index: 1;
+}
+
+.mb {
+  margin-bottom: 2rem;
 }
 </style>

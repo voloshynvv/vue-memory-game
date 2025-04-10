@@ -11,25 +11,39 @@ const emit = defineEmits<{
 
 <template>
   <Teleport to="body">
-    <div class="overlay"></div>
+    <template v-if="isOpen">
+      <div class="backdrop"></div>
 
-    <div v-if="isOpen" class="modal">
-      <div class="modal-content">
-        <slot />
-      </div>
+      <div class="dialog">
+        <div class="dialog-content">
+          <slot />
+        </div>
 
-      <div class="modal-actions">
-        <button @click="emit('confirm')">Agree</button>
-        <button @click="emit('cancel')">Cancel</button>
+        <div class="dialog-actions">
+          <button @click="emit('confirm')">Agree</button>
+          <button @click="emit('cancel')">Cancel</button>
+        </div>
       </div>
-    </div>
+    </template>
   </Teleport>
 </template>
 
 <style scoped>
 .backdrop {
+  background-color: rgb(0 0 0 / 0.3);
+  position: fixed;
+  inset: 0;
+  z-index: 50;
 }
 
-.modal {
+.dialog {
+  background: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 100px;
+  z-index: 50;
 }
 </style>

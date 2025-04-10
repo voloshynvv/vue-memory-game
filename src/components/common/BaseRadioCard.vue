@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps<{ value: number }>()
+
 const model = defineModel()
 </script>
 
@@ -15,6 +16,9 @@ const model = defineModel()
   border: 1px solid var(--color-border);
   padding: 0.375rem 1rem;
   border-radius: 0.25rem;
+  gap: 0.5rem;
+  align-items: center;
+  display: inline-flex;
 }
 
 .radio-card:has(input:checked) {

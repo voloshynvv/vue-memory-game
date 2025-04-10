@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { categories } from '@/constants/game'
+import { categories, pairs } from '@/constants/game'
 import BaseButton from './common/BaseButton.vue'
 import BaseCard from './common/BaseCard.vue'
 import { toKebabCase } from '@/utils/format'
@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const selectedCategory = ref('')
-const selectedPairs = ref(8)
+const selectedPairs = ref(pairs[0])
 const hasValidationError = ref(false)
 
 function submit() {
@@ -25,7 +25,6 @@ function submit() {
 
 <template>
   <BaseCard>
-    <h2 style="margin-bottom: 4px">New Game Settings</h2>
     <p>Sharpen your mind and let's play! Just a few quick settings before you dive in.</p>
 
     <form class="form" @submit.prevent="submit">
@@ -51,9 +50,9 @@ function submit() {
       <fieldset class="fieldset">
         <legend class="label">Pairs</legend>
 
-        <BaseRadioCard :value="12" v-model="selectedPairs"> 12 </BaseRadioCard>
-        <BaseRadioCard :value="24" v-model="selectedPairs"> 24 </BaseRadioCard>
-        <BaseRadioCard :value="36" v-model="selectedPairs"> 36 </BaseRadioCard>
+        <BaseRadioCard v-for="pair in pairs" :key="pair" v-model="selectedPairs" :value="pair">
+          {{ pair }}
+        </BaseRadioCard>
       </fieldset>
 
       <BaseButton type="submit"> Start </BaseButton>
@@ -75,6 +74,7 @@ function submit() {
 }
 
 .select {
+  font: inherit;
   appearance: none;
   padding: 0.5rem;
   border-radius: var(--radius-md);

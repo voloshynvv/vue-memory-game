@@ -8,3 +8,5 @@ export const categories = [
   'Symbols',
   'Flags',
 ]
+
+export const pairs = [9, 12, 15]

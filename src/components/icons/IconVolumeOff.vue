@@ -9,7 +9,6 @@
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="lucide lucide-volume-off-icon lucide-volume-off"
   >
     <path d="M16 9a5 5 0 0 1 .95 2.293" />
     <path d="M19.364 5.636a9 9 0 0 1 1.889 9.96" />

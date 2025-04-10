@@ -17,11 +17,9 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: column; gap: 20px">
-    <button class="button" :class="classes">
-      <slot></slot>
-    </button>
-  </div>
+  <button class="button" :class="classes">
+    <slot></slot>
+  </button>
 </template>
 
 <style scoped>
@@ -47,16 +45,17 @@ const classes = computed(() => {
 .button-primary {
   --border: transparent;
   --bg: #3730a3;
-  --color: white;
+  --color: #ffffff;
 }
 
 .button-outline {
   --border: var(--color-border);
+  --bg: #ffffff;
 }
 
 .button-danger {
   --bg: red;
-  --color: white;
+  --color: #ffffff;
 }
 
 /* Sizes */
@@ -73,5 +72,9 @@ const classes = computed(() => {
 .button-icon {
   --height: 36px;
   --width: 36px;
+}
+
+.button-full {
+  width: 100%;
 }
 </style>

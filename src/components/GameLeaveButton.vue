@@ -26,7 +26,7 @@ const { isRevealed, reveal } = useConfirmDialog()
     </svg>
   </BaseButton>
 
-  <BaseDialog :is-open="isRevealed"> </BaseDialog>
+  <BaseDialog :is-open="false"> </BaseDialog>
 </template>
 
 <style scoped>
