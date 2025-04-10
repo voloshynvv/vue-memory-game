@@ -1,12 +1,24 @@
+<script setup lang="ts">
+import type { Emoji } from '@/types/api'
+import type { MemoryCardStatus } from '@/types/common'
+import { computed } from 'vue'
+
+const props = defineProps<{
+  status: MemoryCardStatus
+  emoji: Emoji
+  disabled?: boolean
+}>()
+
+const classes = computed(() => {
+  return {
+    flipped: props.status === 'opened' || props.status === 'matched',
+    matched: props.status === 'matched',
+  }
+})
+</script>
+
 <template>
-  <button
-    class="card"
-    :class="{
-      flipped: status === 'opened' || status === 'matched',
-      matched: status === 'matched',
-    }"
-    :disabled
-  >
+  <button class="card" :class="classes" :disabled>
     <div class="front">
       <span></span>
     </div>
@@ -18,17 +30,6 @@
     </div>
   </button>
 </template>
-
-<script setup lang="ts">
-import type { Emoji } from '@/types/api'
-import type { MemoryCardStatus } from '@/types/common'
-
-defineProps<{
-  status: MemoryCardStatus
-  emoji: Emoji
-  disabled?: boolean
-}>()
-</script>
 
 <style scoped>
 .card {
