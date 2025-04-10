@@ -151,7 +151,7 @@ function toggleSound() {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 120px 2rem;
+  padding: 6.25rem 2rem;
 }
 
 .board {
