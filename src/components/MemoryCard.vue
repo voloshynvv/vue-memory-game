@@ -19,15 +19,15 @@ const classes = computed(() => {
 
 <template>
   <button class="card" :class="classes" :disabled>
-    <div class="front">
-      <span></span>
-    </div>
+    <div class="front"></div>
 
-    <div class="back">
-      <div role="img" :aria-label="emoji.name">
-        <span v-for="code in emoji.htmlCode" :key="code" v-html="code"></span>
+    <Transition>
+      <div v-if="status !== 'closed'" class="back">
+        <div role="img" :aria-label="emoji.name">
+          <span v-for="code in emoji.htmlCode" :key="code" v-html="code"></span>
+        </div>
       </div>
-    </div>
+    </Transition>
   </button>
 </template>
 
@@ -68,16 +68,12 @@ const classes = computed(() => {
   position: absolute;
   inset: 0;
   font-size: 2rem;
-  transform: rotateY(180deg);
   background-color: #ffffff;
   border-color: #e4e4e7;
 }
 
 .card.flipped .front {
   transform: rotateY(180deg);
-}
-.card.flipped .back {
-  transform: rotateY(0);
 }
 
 .card.matched .back {
@@ -87,5 +83,19 @@ const classes = computed(() => {
 
 .card:disabled {
   cursor: default;
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: rotateY(-180deg);
+}
+.v-enter-to,
+.v-leave-from {
+  transform: rotateY(0);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: transform 500ms;
 }
 </style>
