@@ -82,6 +82,7 @@ function submit() {
   max-width: 20rem;
   width: 100%;
   display: block;
+  background: #ffffff;
 }
 
 .label {
