@@ -83,6 +83,7 @@ function submit() {
   width: 100%;
   display: block;
   background: #ffffff;
+  color: currentColor;
 }
 
 .label {
