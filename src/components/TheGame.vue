@@ -145,9 +145,9 @@ function finishGame() {
       </BaseButton>
     </div>
 
-    <BaseCard class="stats fixed">
+    <BaseCard disabled class="stats fixed">
       <p>Moves: {{ moves }}</p>
-      <p>Matches: {{ matchedCards.size }} / {{ emojis.length / 2 }}</p>
+      <p>Matches: {{ matchedCards.size / 2 }} / {{ emojis.length / 2 }}</p>
     </BaseCard>
   </div>
 </template>
